@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" contant="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://necolas.github.io/normalize.css/8.0.1/normalize.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+<title>Intranet Example.com</title>
+<script type="text/javascript"> 
+var jsonStatus = "";
+var objRequest = new XMLHttpRequest();
+
+objRequest.open('GET', 'status.json', true);
+objRequest.onload = function() {
+	if (this.status >= 200 && this.status < 400) {
+		jsonStatus = JSON.parse(this.response);
+		for(var intIndex = 0; intIndex < jsonStatus.length; intIndex++) {
+			var strHTML = document.getElementById(jsonStatus[intIndex].hostname + ":" + jsonStatus[intIndex].port);
+			if (strHTML != null) {
+			if(jsonStatus[intIndex].status == "down") { strHTML.style.color = "red"; }
+			else if(jsonStatus[intIndex].status == "up") { strHTML.style.color = "green"; }
+			else { strHTML.style.color = "blue"; }
+			}
+		}
+		// alert(jsonStatus.length);
+	} else {
+		alert(this.response);
+	}
+};
+
+objRequest.onerror = function() { alert('js error'); };
+objRequest.send();
+
+</script>
+</head>
+<body>
+<div class="container">
+<hr />
+<h1>Intranet Example</h1>
+<hr />
+<div class="row">
+        <div class="column" align="right"><p>Important Task or Note</p></div>
+        <div class="column"><p>Note or Task Command</p></div>
+</div>
+
+<div class="row">
+	<div class="column">
+		<h2>Server Resources</h2>
+	<table>
+		<thead>
+		<tr><th>Server</th><th>IP</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><a class="button" href="https://intranet.example.com">intranet</a></td><td id="intranet.example.com:80">172.x.x.x</td><tr>
+			<tr><td><a class="button" href="https://lab.example.com">lab</a></td><td id="lab.example.com:80">172.x.x.x</td><tr>
+		</tbody>
+	</table>
+	<h2>Additional Resources</h2>
+	<p>
+		<a class="button" href="https://gmail.com">gmail</a>
+		<a class="button" href="https://github.com/">github</a>
+	</p>
+	</div>
+	<div class="column">
+		<h2>Network Resources</h2>
+	<table>
+		<thead>
+		<tr><th>Server</th><th>IP</th></tr>
+		</thead>
+		<tbody>
+			<tr><td><a class="button" href="http://firewall.example.com">firewall</a></td><td id="firewall.example.com:22">172.x.x.x</td><tr>
+			<tr><td><a class="button" href="http://router.example.com">router</a></td><td id="router.example.com:22">172.x.x.x</td><tr>
+			<tr><td><a class="button" href="http://modem.example.com">modem</a></td><td id="modem.example.com:22">172.x.x.x</td><tr>
+		</tbody>
+	</table>
+	</div>
+</div>
+</body>
+</html>
